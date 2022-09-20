@@ -34,7 +34,7 @@ containers: {
     ports: "6379/tcp"
   }
   mongo: {
-    image: "mongo:latest"
+    image: "mongo:6.0.1"
     dirs: {
       "/data/db": "volume://mongodata?subpath=data"
     }
