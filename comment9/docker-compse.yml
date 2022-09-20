@@ -1,0 +1,32 @@
+version: '3'
+services:
+  web:
+    image: prnake/comment9
+    restart: always
+    links:
+      - mongo
+      - redis
+    depends_on:
+      - mongo
+      - redis
+    ports:
+      - '3000:3000'
+    environment:
+      HOST: "https://comment.pka.moe"
+      BASE_URL: ""
+      INVITE_CODE: "Danmaku"
+      REDIS_HOST: "redis"
+      REDIS_PORT: 6379
+      MONGO_HOST: "mongo"
+      MONGO_PORT: 27017
+      MONGO_DATABASE: "Comment9"
+  mongo:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - comment9-mongo-data:/data/db
+  redis:
+    image: redis:alpine
+    restart: always
+volumes:
+    comment9-mongo-data:

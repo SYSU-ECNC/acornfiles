@@ -1,0 +1,49 @@
+args: {
+  userConfigData: {}
+}
+
+localData: {
+  config: std.merge({
+    host: "",
+    baseUrl: "",
+    inviteCode: "",
+  }, args.userConfigData)
+}
+
+containers: {
+  app: {
+    image: "prnake/comment9"
+    env: {
+      HOST: localData.config.host
+      BASE_URL: localData.config.baseUrl
+      INVITE_CODE: localData.config.inviteCode
+      REDIS_HOST: "redis"
+      REDIS_PORT: 6379
+      MONGO_HOST: "mongo"
+      MONGO_PORT: 27017
+      MONGO_DATABASE: "Comment9"
+    }
+    dependsOn: [
+      "mongo",
+      "redis"
+    ]
+    ports: "3000/http"
+  }
+  redis: {
+    image: "redis:alpine"
+    ports: "6379/tcp"
+  }
+  mongo: {
+    image: "mongo:latest"
+    dirs: {
+      "/data/db": "volume://mongodata?subpath=data"
+    }
+    ports: "27017/tcp"
+  }
+}
+
+volumes: {
+  "mongodata": {
+    accessModes: "readWriteOnce"
+  }
+}
