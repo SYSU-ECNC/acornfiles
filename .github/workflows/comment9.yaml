@@ -28,5 +28,5 @@ jobs:
       - name: Build and Push
         run: |
           cd comment9
-          acorn build -t ${{ steps.meta.outputs.tags }}
+          acorn build -t ${{ steps.meta.outputs.tags }} .
           acorn push ${{ steps.meta.outputs.tags }}
